@@ -11,9 +11,10 @@ class ServerClientThread extends Thread {
     String userEmail;
     int clientNo;
 
-    ServerClientThread(Socket inSocket, Connection conn){
+    ServerClientThread(Socket inSocket, Connection conn, int clientNo){
             serverClient = inSocket;
             connection = conn;
+            this.clientNo=clientNo;
     }
 
     public boolean deleteAD (int IdADD, int prop){
@@ -108,7 +109,7 @@ class ServerClientThread extends Thread {
             outStream.flush();
             clientMessage=inStream.readUTF();
 
-            System.out.println("1-From Client-" +clientNo+ ": Message :"+clientMessage);
+            System.out.println("From Client-" +clientNo+ ": Message :"+clientMessage);
             String[] req = clientMessage.split("\\|");
             if (req[0].equals("LOGIN")){
                 while (true) {

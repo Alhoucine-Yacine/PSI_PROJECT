@@ -39,7 +39,7 @@ public class Server {
     public static Connection getConnection(String name, String pass) throws Exception {
         String currentLine[] = getServerIp().split(",");
         String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://" + currentLine[0] + ":"+currentLine[1]+"/PRJPSI?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
+        String url = "jdbc:mysql://" + currentLine[0] + ":"+currentLine[1]+"/PRJPSI2?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         String username = name;
         String passwd = pass;
         Class.forName(driver);
@@ -60,7 +60,7 @@ public class Server {
             counter++;
             Socket serverClient=serverSocket.accept();
             System.out.println(" >> " + "Client No:" + counter + " started!");
-            ServerClientThread sct = new ServerClientThread(serverClient , connection);
+            ServerClientThread sct = new ServerClientThread(serverClient , connection, counter);
             sct.start();
         }
 
