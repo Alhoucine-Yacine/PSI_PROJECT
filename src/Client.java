@@ -107,7 +107,9 @@ public class Client {
                     System.out.println("4- Update your Ad");
                     System.out.println("5- Delete your Ad");
                     System.out.println("6- Update your information");
-                    System.out.println("7- Logout");
+                    System.out.println("7- Reserve an Ad");
+                    System.out.println("8- Unreserve an Ad");
+                    System.out.println("9- Logout");
 
                     System.out.print("-> ");
                     clientMessage = br.readLine();
@@ -131,7 +133,7 @@ public class Client {
                             break;
                         }
 
-                        case (7): {clientMessage="LOGOUT";
+                        case (9): {clientMessage="LOGOUT";
                                 outStream.writeUTF(clientMessage);
                                 outStream.flush();
                                 System.out.println("logged out !");
@@ -239,6 +241,32 @@ public class Client {
                             if (serverMessage.equals("success")) System.out.println("AD Deleted !");
                             else System.out.println("Failed to delete");
                             break;
+                        }
+
+                        case (7) : {
+                            req = "RESERVEAD|";
+                            System.out.print("Enter the ID :\n-> ");
+                            req+=br.readLine();
+                            outStream.writeUTF(req);
+                            outStream.flush();
+                            serverMessage=inStream.readUTF();
+                            if (serverMessage.equals("success")) System.out.println("AD Reserved !");
+                            else System.out.println("Failed to reserve");
+                            break;
+
+                        }
+
+                        case (8) : {
+                            req = "UNRESERVEAD|";
+                            System.out.print("Enter the ID :\n-> ");
+                            req+=br.readLine();
+                            outStream.writeUTF(req);
+                            outStream.flush();
+                            serverMessage=inStream.readUTF();
+                            if (serverMessage.equals("success")) System.out.println("AD Uneserved !");
+                            else System.out.println("Failed to Unreserve");
+                            break;
+
                         }
                     }
                     }

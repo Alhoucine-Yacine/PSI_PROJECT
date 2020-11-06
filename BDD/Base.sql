@@ -18,7 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `prjpsi`
+create Database prjpsi;
+use prjpsi;
 --
 
 -- --------------------------------------------------------
@@ -26,6 +27,9 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `annonces`
 --
+
+create Database prjpsi2;
+use prjpsi2;
 
 DROP TABLE IF EXISTS `annonces`;
 CREATE TABLE IF NOT EXISTS `annonces` (

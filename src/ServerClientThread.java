@@ -31,6 +31,32 @@ class ServerClientThread extends Thread {
 
     }
 
+    public boolean reserveAD (int ID){
+        String req = "update annonces set reserved = 1 where id= "+ID+" ;";
+        Statement statement= null;
+        try {
+            statement = connection.createStatement();
+            int rep = statement.executeUpdate(req);
+            if (rep ==1) return true;
+            else return false;
+        } catch (SQLException throwables) {
+            return false;
+        }
+
+    }
+
+    public boolean UnreserveAD (int ID) throws SQLException {
+        String req = "update annonces set reserved = 0 where id= "+ID+" and prop = "+getClientId(userEmail)+";";
+        Statement statement= null;
+        try {
+            statement = connection.createStatement();
+            int rep = statement.executeUpdate(req);
+            if (rep ==1) return true;
+            else return false;
+        } catch (SQLException throwables) {
+            return false;
+        }
+    }
 
     public boolean editAD( String title,String description, int price, int domain, int prop, int id)  {
         String req  = "update annonces set titre ='"+title+"', description='"+description+"',prix="+price+",domaine="+domain+" where id="+id+" and prop= "+prop+" ;";
@@ -190,23 +216,35 @@ class ServerClientThread extends Thread {
                     }
                     case "UPDATEAD":{
                         if (editAD((req[2]),req[3],Integer.parseInt(req[4]),Integer.parseInt(req[5]),getClientId(userEmail),Integer.parseInt(req[1]))) outStream.writeUTF("success");
-                        else outStream.writeUTF("Failed");
+                        else outStream.writeUTF("error");
                         outStream.flush();
                         break;
                     }
                     case "DELETEAD":{
                         if (deleteAD(Integer.parseInt(req[1]),getClientId(userEmail))) outStream.writeUTF("success");
-                        else outStream.writeUTF("Failed");
+                        else outStream.writeUTF("error");
                         outStream.flush();
                         break;
                     }
 
                     case "UPDATECLIENT":{
                         if (UpdateClient(req[1],req[2],req[3],req[4],req[6],req[7],req[8],req[9],req[10],req[5])==1) outStream.writeUTF("success");
-                        else
-
+                        else outStream.writeUTF("error");
                         break;
                     }
+
+                    case "RESERVEAD": {
+                        if (reserveAD(Integer.parseInt(req[1]))) outStream.writeUTF("success");
+                        else outStream.writeUTF("error");
+                        break;
+                    }
+
+                    case "UNRESERVEAD": {
+                        if (UnreserveAD(Integer.parseInt(req[1]))) outStream.writeUTF("success");
+                        else outStream.writeUTF("error");
+                        break;
+                    }
+
                     case "LOGOUT":{
                         inStream.close();
                         outStream.close();
